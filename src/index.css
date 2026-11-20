@@ -1,0 +1,70 @@
+@import "tailwindcss";
+
+@theme {
+  --color-ink: #060a08;
+  --color-panel: #0c1310;
+  --color-panel2: #101a15;
+  --color-line: #1e2c25;
+  --color-line2: #2a3d33;
+  --color-lime: #b6f36a;
+  --color-mint: #5ce1a5;
+  --color-dim: #7e938a;
+  --color-body: #d8e5de;
+
+  --font-mono: "JetBrains Mono", ui-monospace, SFMono-Regular, Menlo, Consolas,
+    monospace;
+  --font-sans: "Inter", ui-sans-serif, system-ui, -apple-system, "Segoe UI",
+    sans-serif;
+}
+
+html {
+  scroll-behavior: smooth;
+  scroll-padding-top: 5rem;
+}
+
+body {
+  background-color: var(--color-ink);
+  color: var(--color-body);
+  -webkit-font-smoothing: antialiased;
+  font-family: var(--font-sans);
+}
+
+::selection {
+  background: var(--color-lime);
+  color: #06110a;
+}
+
+* {
+  scrollbar-width: thin;
+  scrollbar-color: var(--color-line2) transparent;
+}
+
+@layer components {
+  .panel {
+    @apply rounded-xl border border-line bg-panel;
+  }
+  .chip {
+    @apply inline-flex items-center gap-1.5 rounded-full border border-line bg-panel2 px-2.5 py-1 font-mono text-[11px] text-dim;
+  }
+  .kbd {
+    @apply rounded border border-line2 bg-panel2 px-1.5 py-0.5 font-mono text-[11px] text-body;
+  }
+  .h2 {
+    @apply font-mono text-[11px] uppercase tracking-[0.18em] text-mint;
+  }
+  .h3 {
+    @apply text-2xl font-semibold tracking-tight text-white sm:text-3xl;
+  }
+  .prose-p {
+    @apply text-[15px] leading-7 text-body/90;
+  }
+  .link {
+    @apply text-lime underline decoration-lime/30 underline-offset-4 transition hover:decoration-lime;
+  }
+  .btn {
+    @apply inline-flex items-center gap-2 rounded-lg border border-line2 bg-panel2 px-3 py-1.5 font-mono text-xs text-body transition hover:border-lime/60 hover:text-lime;
+  }
+  .field {
+    @apply w-full rounded-lg border border-line bg-ink px-3 py-2 font-mono text-xs text-body outline-none transition focus:border-mint/70;
+  }
+}
