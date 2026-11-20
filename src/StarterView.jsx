@@ -162,8 +162,8 @@ export default function StarterView() {
               intro="You need a C++20 compiler, CMake, the patched ENet, a MySQL client library and OpenSSL. Everything below follows gurotopia's dependencies; only the build system differs."
             />
 
-            <div className="panel mb-4 overflow-hidden">
-              <table className="w-full text-left text-sm">
+            <div className="panel mb-4 overflow-x-auto">
+              <table className="w-full min-w-[34rem] text-left text-sm">
                 <thead className="border-b border-line bg-panel2 font-mono text-[10px] uppercase tracking-wider text-dim">
                   <tr>
                     <th className="px-3.5 py-2 font-normal">piece</th>
@@ -223,8 +223,8 @@ mysql -u root -p -e "SOURCE sql/schema.sql"`}
             <div className="mt-4">
               <Callout tone="warn" title="this is a reading template">
                 The code on this tab compiles as a skeleton, but it is not a
-                drop-in server: it has no items.dat, no inventory, no physics and no
-                lock checks. Use it to get the handshake and the world on screen,
+                drop-in server: it has no physics, no movement sync, no saved
+                inventory and no lock checks. Use it to get the handshake and the world on screen,
                 then copy behaviour from{" "}
                 <a
                   className="link"
@@ -245,7 +245,7 @@ mysql -u root -p -e "SOURCE sql/schema.sql"`}
               index="02"
               eyebrow="Project"
               title="Layout, CMake, and the wire types"
-              intro="Seven translation units, one header for the protocol, one for the world. The CMake file fails loudly when the patched ENet or the MariaDB client is missing, because both are easy to link against by accident."
+              intro="Nine translation units, one header for the protocol, one for the world, one library for items.dat. The CMake file fails loudly when the patched ENet or the MariaDB client is missing, because both are easy to link against by accident."
             />
 
             <div className="mb-4 grid gap-3 lg:grid-cols-[0.85fr_1.15fr] lg:items-start">
@@ -257,11 +257,14 @@ mysql -u root -p -e "SOURCE sql/schema.sql"`}
 ├─ resources/
 │  ├─ server_data.php
 │  └─ ctx/server.crt · server.key
+├─ items.dat             YOU add this file
+├─ tools/items_dump.cpp  decoder test tool
 ├─ sql/schema.sql
 ├─ third_party/enet/     patched fork
 ├─ include/              your headers, if you split them
 └─ src/
    ├─ net.hpp            wire format
+   ├─ items.hpp/.cpp     items.dat decoder
    ├─ protocol.cpp       send + dispatch
    ├─ main.cpp           both listeners
    ├─ https.cpp/.hpp     server_data.php
@@ -386,17 +389,55 @@ cmake --build build -j
             </div>
           </section>
 
+          {/* items.dat */}
+          <section id="s-items" className="scroll-mt-28">
+            <SectionHeading
+              index="04"
+              eyebrow="Data"
+              title="Decode items.dat before anything else"
+              intro="Every rule about a block (how many punches, can it be broken, is it clothing) lives in items.dat. This step ports gurotopia's decoder, then lets you prove it works on YOUR file before the server exists."
+            />
+
+            <div className="mb-4 grid gap-3 lg:grid-cols-3">
+              <Callout title="1 · put the file in">
+                Copy your Growtopia <code className="font-mono text-[11px]">items.dat</code> into the project root, next to{" "}
+                <code className="font-mono text-[11px]">CMakeLists.txt</code>. The build copies it beside the server.
+              </Callout>
+              <Callout title="2 · test the decoder alone">
+                Build only the dump tool, no ENet or MySQL needed:{" "}
+                <code className="font-mono text-[11px]">cmake --build build --target items_dump</code>, then{" "}
+                <code className="font-mono text-[11px]">./build/items_dump items.dat dirt</code>.
+              </Callout>
+              <Callout title="3 · or check it in the browser">
+                Open the <b>items browser</b> tab at the top and drop the same file there. The header numbers (version, count, hash) must match the dump tool.
+              </Callout>
+            </div>
+
+            <FileTabs files={pick("src/items.hpp", "src/items.cpp", "tools/items_dump.cpp")} />
+
+            <div className="mt-4 grid gap-3 lg:grid-cols-2">
+              <Callout tone="warn" title="version matters">
+                The tail of each item grows with the file version (0x0b … 0x1b). The decoder skips exactly what gurotopia skips; a newer items.dat than the code knows will stop with an error instead of printing garbage.
+              </Callout>
+              <Callout title="where the data is used">
+                The server sends the raw bytes on <code className="font-mono text-[11px]">action|refresh_item_data</code>, puts the file's hash into{" "}
+                <code className="font-mono text-[11px]">OnSuperMainStartAcceptLogon</code>, and reads hits, hit_reset and type in{" "}
+                <code className="font-mono text-[11px]">tiles.cpp</code>.
+              </Callout>
+            </div>
+          </section>
+
           {/* 04 enet */}
           <section id="s-enet" className="scroll-mt-28">
             <SectionHeading
-              index="04"
+              index="05"
               eyebrow="ENet"
               title="Two listeners, one event loop"
               intro="main opens the TLS thread, then the ENet host on the port server_data.php advertises, applies the three patches, and loops on enet_host_service. Every later feature is a branch in that loop."
             />
 
-            <div className="panel mb-4 overflow-hidden">
-              <table className="w-full text-left text-sm">
+            <div className="panel mb-4 overflow-x-auto">
+              <table className="w-full min-w-[34rem] text-left text-sm">
                 <thead className="border-b border-line bg-panel2 font-mono text-[10px] uppercase tracking-wider text-dim">
                   <tr>
                     <th className="px-3.5 py-2 font-normal">modification</th>
@@ -444,7 +485,7 @@ cmake --build build -j
           {/* 05 db */}
           <section id="s-db" className="scroll-mt-28">
             <SectionHeading
-              index="05"
+              index="06"
               eyebrow="MySQL"
               title="Two tables are enough to start"
               intro="Accounts and worlds. gurotopia calls them peer and world and keeps inventory and level on the account; the names do not matter, the columns do. Both statements below are prepared, so a GrowID with a quote in it is just a string."
@@ -477,7 +518,7 @@ cmake --build build -j
           {/* 06 login */}
           <section id="s-login" className="scroll-mt-28">
             <SectionHeading
-              index="06"
+              index="07"
               eyebrow="Accounts"
               title="Create & log in, in order"
               intro="Two processes share this job. login-gurotopia serves the page at loginurl and hands back a base64 token; the C++ server receives that token as ltoken, creates the row on first use, and answers OnSendToServer. The ten steps below run in the order you actually do them — and the account half is testable with curl before you touch UDP."
@@ -565,11 +606,11 @@ cmake --build build -j
             />
 
             <div className="mt-4 grid gap-3 lg:grid-cols-2 lg:items-start">
-              <div className="panel overflow-hidden">
+              <div className="panel overflow-x-auto">
                 <div className="border-b border-line px-3.5 py-2 font-mono text-[10px] uppercase tracking-wider text-dim">
                   the four routes
                 </div>
-                <table className="w-full text-left">
+                <table className="w-full min-w-[34rem] text-left">
                   <tbody>
                     {loginEndpoints.map(([method, route, meaning]) => (
                       <tr key={route} className="border-t border-line/70 align-top">
@@ -588,11 +629,11 @@ cmake --build build -j
                 </table>
               </div>
 
-              <div className="panel overflow-hidden">
+              <div className="panel overflow-x-auto">
                 <div className="border-b border-line px-3.5 py-2 font-mono text-[10px] uppercase tracking-wider text-dim">
                   columns: repo vs starter
                 </div>
-                <table className="w-full text-left">
+                <table className="w-full min-w-[34rem] text-left">
                   <tbody>
                     {loginSchemaMap.map(([repo, mine, note]) => (
                       <tr key={repo} className="border-t border-line/70 align-top">
@@ -612,11 +653,11 @@ cmake --build build -j
               </div>
             </div>
 
-            <div className="mt-4 panel overflow-hidden">
+            <div className="mt-4 panel overflow-x-auto">
               <div className="border-b border-line px-3.5 py-2 font-mono text-[10px] uppercase tracking-wider text-dim">
                 dashboard side · what bites
               </div>
-              <table className="w-full text-left">
+              <table className="w-full min-w-[34rem] text-left">
                 <tbody>
                   {loginTraps.map(([name, symptom, fix]) => (
                     <tr key={name} className="border-t border-line/70 align-top">
@@ -637,8 +678,8 @@ cmake --build build -j
               then the udp handshake, step by step
             </h3>
 
-            <div className="panel mb-4 overflow-hidden">
-              <table className="w-full text-left text-sm">
+            <div className="panel mb-4 overflow-x-auto">
+              <table className="w-full min-w-[34rem] text-left text-sm">
                 <thead className="border-b border-line bg-panel2 font-mono text-[10px] uppercase tracking-wider text-dim">
                   <tr>
                     <th className="px-3 py-2 font-normal">#</th>
@@ -690,7 +731,7 @@ cmake --build build -j
           {/* 07 join */}
           <section id="s-join" className="scroll-mt-28">
             <SectionHeading
-              index="07"
+              index="08"
               eyebrow="World"
               title="Sending a map the client can stand in"
               intro="join_request carries the world name. Load it, create it if the name is new, ship the tile blob as SEND_MAP_DATA, then spawn the avatar and place it with OnSetPos."
@@ -699,11 +740,11 @@ cmake --build build -j
             <FileTabs files={pick("src/world.hpp", "src/world.cpp")} />
 
             <div className="mt-4 grid gap-4 lg:grid-cols-[1.1fr_0.9fr] lg:items-start">
-              <div className="panel overflow-hidden">
+              <div className="panel overflow-x-auto">
                 <div className="border-b border-line px-3.5 py-2 font-mono text-[10px] uppercase tracking-wider text-dim">
                   SEND_MAP_DATA payload
                 </div>
-                <table className="w-full text-left text-sm">
+                <table className="w-full min-w-[34rem] text-left text-sm">
                   <tbody>
                     {mapLayout.map(([type, value, meaning]) => (
                       <tr key={type + value} className="border-t border-line/70">
@@ -774,7 +815,7 @@ cmake --build build -j
           {/* 08 break */}
           <section id="s-break" className="scroll-mt-28">
             <SectionHeading
-              index="08"
+              index="09"
               eyebrow="Tiles"
               title="Breaking a block"
               intro="A punch is not its own packet: the client sends TILE_CHANGE_REQUEST (0x03) with itemID 18, the fist, and the tile it hit. You count the hits, answer with damage, and on the last one clear the tile and broadcast the update."
@@ -828,7 +869,7 @@ cmake --build build -j
           {/* 09 next */}
           <section id="s-next" className="scroll-mt-28">
             <SectionHeading
-              index="09"
+              index="10"
               eyebrow="Next"
               title="What to build once a world loads"
               intro="A joined world and a broken block are the floor, not the ceiling. In rough order of what will break next, this is the list I am working through."
@@ -849,11 +890,11 @@ cmake --build build -j
                 </ul>
               </div>
 
-              <div className="panel overflow-hidden">
+              <div className="panel overflow-x-auto">
                 <div className="border-b border-line px-3.5 py-2 font-mono text-[10px] uppercase tracking-wider text-dim">
                   traps, and what they look like
                 </div>
-                <table className="w-full text-left">
+                <table className="w-full min-w-[34rem] text-left">
                   <tbody>
                     {traps.map(([name, symptom, fix]) => (
                       <tr key={name} className="border-t border-line/70 align-top">

@@ -14,7 +14,7 @@ export function PacketTable({ packets }) {
   }, [packets, query]);
 
   return (
-    <div className="panel overflow-hidden">
+    <div className="panel overflow-x-auto">
       <div className="flex flex-wrap items-center gap-3 border-b border-line px-3.5 py-2.5">
         <input
           value={query}
@@ -27,7 +27,7 @@ export function PacketTable({ packets }) {
         </span>
       </div>
       <div className="max-h-[560px] overflow-auto">
-        <table className="w-full text-left">
+        <table className="w-full min-w-[34rem] text-left">
           <thead className="sticky top-0 z-10 bg-panel2 font-mono text-[10px] uppercase tracking-wider text-dim">
             <tr>
               <th className="px-3.5 py-2 font-normal">type</th>
@@ -78,7 +78,7 @@ export function ActionGrid({ actions }) {
   }, [actions, query]);
 
   return (
-    <div className="panel overflow-hidden">
+    <div className="panel overflow-x-auto">
       <div className="flex flex-wrap items-center gap-3 border-b border-line px-3.5 py-2.5">
         <input
           value={query}
@@ -121,7 +121,7 @@ export function FunctionList({ functions }) {
   }, [functions, query]);
 
   return (
-    <div className="panel overflow-hidden">
+    <div className="panel overflow-x-auto">
       <div className="flex flex-wrap items-center gap-3 border-b border-line px-3.5 py-2.5">
         <input
           value={query}

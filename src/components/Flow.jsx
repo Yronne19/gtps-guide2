@@ -71,7 +71,7 @@ const STEP_STYLES = {
 
 export function Trace({ steps }) {
   return (
-    <div className="panel overflow-hidden">
+    <div className="panel overflow-x-auto">
       <div className="flex items-center justify-between border-b border-line px-4 py-2.5">
         <span className="font-mono text-[10px] uppercase tracking-[0.16em] text-dim">
           handshake trace

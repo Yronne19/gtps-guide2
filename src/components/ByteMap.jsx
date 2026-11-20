@@ -26,7 +26,7 @@ export default function ByteMap({ fields }) {
   const totalBytes = 56;
 
   return (
-    <div className="panel overflow-hidden">
+    <div className="panel overflow-x-auto">
       <div className="flex flex-wrap items-center justify-between gap-3 border-b border-line px-4 py-3">
         <div className="font-mono text-[11px] uppercase tracking-[0.14em] text-dim">
           header byte map · 56 bytes

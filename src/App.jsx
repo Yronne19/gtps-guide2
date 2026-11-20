@@ -9,6 +9,7 @@ import {
   packets,
 } from "./data/reference.js";
 import { Callout, CodeBlock, SectionHeading } from "./components/ui.jsx";
+import ItemsBrowser from "./components/ItemsBrowser.jsx";
 import ByteMap from "./components/ByteMap.jsx";
 import PacketDecoder from "./components/PacketDecoder.jsx";
 import EndianLab from "./components/EndianLab.jsx";
@@ -131,7 +132,7 @@ export default function App() {
           </a>
         </div>
 
-        <div className="mx-auto flex h-9 max-w-[1440px] items-center gap-1 border-t border-line/60 px-3">
+        <div className="mx-auto flex h-9 max-w-[1440px] items-center gap-1 overflow-x-auto border-t border-line/60 px-3">
           <button
             type="button"
             onClick={() => switchTab("guide")}
@@ -154,10 +155,23 @@ export default function App() {
           >
             <span className="text-[9px] opacity-60">02</span> c++ starter
           </button>
+          <button
+            type="button"
+            onClick={() => switchTab("items")}
+            className={`flex h-full items-center gap-2 border-b-2 px-3 font-mono text-[11px] transition ${
+              tab === "items"
+                ? "border-amber-300 text-amber-300"
+                : "border-transparent text-dim hover:text-body"
+            }`}
+          >
+            <span className="text-[9px] opacity-60">03</span> items browser
+          </button>
           <span className="ml-auto hidden truncate font-mono text-[9px] uppercase tracking-wider text-dim/70 sm:block">
             {tab === "guide"
               ? "react · tailwind · 12 sections"
-              : "c++20 · enet · cmake · mariadb"}
+              : tab === "items"
+                ? "items.dat · decoded locally"
+                : "c++20 · enet · cmake · mariadb"}
           </span>
         </div>
       </div>
@@ -398,8 +412,8 @@ export default function App() {
                 intro="Growtopia uses ENet, a thin reliable-UDP layer: it sequences packets, acknowledges reliable ones, fragments big ones and reports ping and loss. You do not write your own framing — you do have to match three modifications."
               />
 
-              <div className="panel mb-4 overflow-hidden">
-                <table className="w-full text-left text-sm">
+              <div className="panel mb-4 overflow-x-auto">
+                <table className="w-full min-w-[34rem] text-left text-sm">
                   <thead className="border-b border-line bg-panel2 font-mono text-[10px] uppercase tracking-wider text-dim">
                     <tr>
                       <th className="px-3.5 py-2 font-normal">change</th>
@@ -968,6 +982,8 @@ send_varlist(peer, { "OnSetPos", CL_Vec2f{ 672.f, 1152.f } }, netid);`}
           </footer>
         </main>
           </>
+        ) : tab === "items" ? (
+          <ItemsBrowser />
         ) : (
           <StarterView />
         )}

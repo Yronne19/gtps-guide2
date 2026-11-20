@@ -244,13 +244,13 @@ export default function PacketDecoder() {
           <HexDump bytes={bytes} highlight={highlight} />
         </div>
 
-        <div className="panel overflow-hidden">
+        <div className="panel overflow-x-auto">
           <div className="border-b border-line px-3.5 py-2 font-mono text-[11px] uppercase tracking-[0.14em] text-dim">
             decoded fields · tap a row to highlight its bytes
           </div>
           {rows.length ? (
             <div className="max-h-[520px] overflow-auto">
-              <table className="w-full text-left">
+              <table className="w-full min-w-[34rem] text-left">
                 <thead className="sticky top-0 bg-panel2 font-mono text-[10px] uppercase tracking-wider text-dim">
                   <tr>
                     <th className="px-3 py-2 font-normal">field</th>

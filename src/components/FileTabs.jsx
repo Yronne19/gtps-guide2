@@ -17,7 +17,7 @@ export default function FileTabs({ files, note }) {
   }
 
   return (
-    <div className="panel overflow-hidden">
+    <div className="panel overflow-x-auto">
       <div className="flex items-stretch gap-0.5 overflow-x-auto border-b border-line bg-panel2/70 px-1.5">
         {names.map((name) => (
           <button

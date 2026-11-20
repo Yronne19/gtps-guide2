@@ -53,7 +53,7 @@ export function CodeBlock({ title, language = "cpp", code, note }) {
   }
 
   return (
-    <figure className="panel overflow-hidden">
+    <figure className="panel overflow-x-auto">
       <div className="flex items-center justify-between border-b border-line px-3.5 py-2">
         <div className="flex items-center gap-2.5">
           <span className="flex gap-1">
