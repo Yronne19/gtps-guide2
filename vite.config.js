@@ -4,5 +4,6 @@ import tailwindcss from "@tailwindcss/vite";
 
 export default defineConfig({
   plugins: [react(), tailwindcss()],
-  server: { host: "127.0.0.1", port: 5173 },
+  // server: { host: "127.0.0.1", port: 5173 },
+  base: process.env.VITE_BASE_PATH || '/gtps-guide2',
 });
