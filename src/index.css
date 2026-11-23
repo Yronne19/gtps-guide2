@@ -68,3 +68,155 @@ body {
     @apply w-full rounded-lg border border-line bg-ink px-3 py-2 font-mono text-xs text-body outline-none transition focus:border-mint/70;
   }
 }
+
+/* --- networking tab: animation --- */
+
+@keyframes netPop {
+  from {
+    opacity: 0;
+    transform: scale(0.965) translateY(5px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+@keyframes netFade {
+  from {
+    opacity: 0;
+    transform: translateY(6px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+@keyframes netFlowRight {
+  0% {
+    left: 0;
+    opacity: 0;
+  }
+  12% {
+    opacity: 1;
+  }
+  88% {
+    opacity: 1;
+  }
+  100% {
+    left: calc(100% - 6px);
+    opacity: 0;
+  }
+}
+
+@keyframes netFlowLeft {
+  0% {
+    left: calc(100% - 6px);
+    opacity: 0;
+  }
+  12% {
+    opacity: 1;
+  }
+  88% {
+    opacity: 1;
+  }
+  100% {
+    left: 0;
+    opacity: 0;
+  }
+}
+
+@keyframes netLaneMove {
+  0% {
+    left: 2%;
+    opacity: 0;
+  }
+  10% {
+    opacity: 1;
+  }
+  88% {
+    opacity: 1;
+  }
+  100% {
+    left: calc(100% - 1.4rem - var(--stack, 0rem));
+    opacity: 1;
+  }
+}
+
+@keyframes netLaneDrop {
+  0% {
+    left: 2%;
+    opacity: 0;
+  }
+  10% {
+    opacity: 1;
+  }
+  48% {
+    left: 47%;
+    opacity: 1;
+  }
+  58% {
+    left: 49%;
+    opacity: 0;
+  }
+  100% {
+    left: 49%;
+    opacity: 0;
+  }
+}
+
+@keyframes netPulse {
+  0%,
+  100% {
+    box-shadow: 0 0 0 0 rgba(125, 211, 252, 0.5);
+  }
+  50% {
+    box-shadow: 0 0 0 5px rgba(125, 211, 252, 0);
+  }
+}
+
+.net-pop {
+  animation: netPop 0.38s ease both;
+}
+
+.net-fade {
+  animation: netFade 0.4s ease both;
+}
+
+.net-flow-r {
+  animation: netFlowRight 1.15s linear both;
+}
+
+.net-flow-l {
+  animation: netFlowLeft 1.15s linear both;
+}
+
+.net-lane-move {
+  animation: netLaneMove 1.5s linear both;
+}
+
+.net-lane-drop {
+  animation: netLaneDrop 1.3s linear both;
+}
+
+.net-pulse {
+  animation: netPulse 1.6s ease-in-out infinite;
+}
+
+/* the sticky header + the mobile section strip both sit at the top */
+@media (max-width: 1023px) {
+  html {
+    scroll-padding-top: 7.5rem;
+  }
+
+  main section[id] {
+    scroll-margin-top: 7.5rem;
+  }
+}
+
+@media (max-width: 380px) {
+  .chip {
+    @apply px-2 text-[10px];
+  }
+}

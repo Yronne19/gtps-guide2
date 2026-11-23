@@ -91,7 +91,7 @@ export function Trace({ steps }) {
               </span>
               <div className="flex items-baseline gap-2">
                 <span className={`text-sm ${style.text}`}>{style.arrow}</span>
-                <span className="whitespace-nowrap font-mono text-[11px] text-body">
+                <span className="break-words font-mono text-[11px] text-body sm:whitespace-nowrap">
                   {step.msg}
                 </span>
               </div>
@@ -139,7 +139,7 @@ const SEGMENTS = [
 
 export function AnatomyBar({ title = "ENet datagram on the wire" }) {
   return (
-    <div className="panel p-4">
+    <div className="panel p-3 sm:p-4">
       <div className="mb-3 font-mono text-[10px] uppercase tracking-[0.16em] text-dim">
         {title} · all fields big-endian
       </div>

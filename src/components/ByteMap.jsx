@@ -43,10 +43,10 @@ export default function ByteMap({ fields }) {
         </div>
       </div>
 
-      <div className="p-4">
+      <div className="p-3 sm:p-4">
         <div className="mb-1 flex font-mono text-[10px] text-dim/70">
-          {[0, 8, 16, 24, 32, 40, 48].map((tick) => (
-            <span key={tick} style={{ flexGrow: 8 }} className="border-l border-line2 pl-1">
+          {[0, 16, 32, 48].map((tick) => (
+            <span key={tick} style={{ flexGrow: 16 }} className="border-l border-line2 pl-1">
               {tick}
             </span>
           ))}
@@ -75,14 +75,14 @@ export default function ByteMap({ fields }) {
           })}
         </div>
 
-        <div className="mt-3 flex justify-between font-mono text-[10px] text-dim/60">
+        <div className="mt-3 flex flex-wrap justify-between gap-x-3 gap-y-1 font-mono text-[10px] text-dim/60">
           <span>header byte 0 = packet byte 4</span>
           <span>header byte {totalBytes - 1} · then extra data</span>
         </div>
       </div>
 
       {selected ? (
-        <div className="grid gap-4 border-t border-line bg-panel2/60 p-4 sm:grid-cols-[1fr_1.4fr]">
+        <div className="grid gap-4 border-t border-line bg-panel2/60 p-3 sm:grid-cols-[1fr_1.4fr] sm:p-4">
           <div>
             <div className="flex items-baseline gap-2">
               <span className="font-mono text-lg font-semibold text-white">

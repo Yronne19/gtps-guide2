@@ -16,6 +16,7 @@ import EndianLab from "./components/EndianLab.jsx";
 import { AnatomyBar, ArchitectureDiagram, Trace } from "./components/Flow.jsx";
 import { ActionGrid, FunctionList, PacketTable } from "./components/Reference.jsx";
 import StarterView from "./StarterView.jsx";
+import NetworkView from "./NetworkView.jsx";
 
 const HANDSHAKE = [
   {
@@ -119,7 +120,7 @@ export default function App() {
   return (
     <div className="min-h-screen">
       <div className="sticky top-0 z-50 border-b border-line bg-[#0a0d07]/95 backdrop-blur">
-        <div className="mx-auto flex h-8 max-w-[1440px] items-center gap-3 px-4">
+        <div className="mx-auto flex h-8 max-w-[1440px] items-center gap-3 px-3 sm:px-4">
           <span className="shrink-0 rounded bg-amber-400/15 px-1.5 py-0.5 font-mono text-[9px] uppercase tracking-wider text-amber-300">
             personal notes
           </span>
@@ -132,11 +133,11 @@ export default function App() {
           </a>
         </div>
 
-        <div className="mx-auto flex h-9 max-w-[1440px] items-center gap-1 overflow-x-auto border-t border-line/60 px-3">
+        <div className="mx-auto flex h-9 max-w-[1440px] items-center gap-1 overflow-x-auto border-t border-line/60 px-2 sm:px-3">
           <button
             type="button"
             onClick={() => switchTab("guide")}
-            className={`flex h-full items-center gap-2 border-b-2 px-3 font-mono text-[11px] transition ${
+            className={`flex h-full shrink-0 items-center gap-2 whitespace-nowrap border-b-2 px-2.5 font-mono text-[11px] transition sm:px-3 ${
               tab === "guide"
                 ? "border-lime text-lime"
                 : "border-transparent text-dim hover:text-body"
@@ -147,7 +148,7 @@ export default function App() {
           <button
             type="button"
             onClick={() => switchTab("starter")}
-            className={`flex h-full items-center gap-2 border-b-2 px-3 font-mono text-[11px] transition ${
+            className={`flex h-full shrink-0 items-center gap-2 whitespace-nowrap border-b-2 px-2.5 font-mono text-[11px] transition sm:px-3 ${
               tab === "starter"
                 ? "border-mint text-mint"
                 : "border-transparent text-dim hover:text-body"
@@ -157,21 +158,34 @@ export default function App() {
           </button>
           <button
             type="button"
+            onClick={() => switchTab("network")}
+            className={`flex h-full shrink-0 items-center gap-2 whitespace-nowrap border-b-2 px-2.5 font-mono text-[11px] transition sm:px-3 ${
+              tab === "network"
+                ? "border-sky-300 text-sky-300"
+                : "border-transparent text-dim hover:text-body"
+            }`}
+          >
+            <span className="text-[9px] opacity-60">03</span> networking
+          </button>
+          <button
+            type="button"
             onClick={() => switchTab("items")}
-            className={`flex h-full items-center gap-2 border-b-2 px-3 font-mono text-[11px] transition ${
+            className={`flex h-full shrink-0 items-center gap-2 whitespace-nowrap border-b-2 px-2.5 font-mono text-[11px] transition sm:px-3 ${
               tab === "items"
                 ? "border-amber-300 text-amber-300"
                 : "border-transparent text-dim hover:text-body"
             }`}
           >
-            <span className="text-[9px] opacity-60">03</span> items browser
+            <span className="text-[9px] opacity-60">04</span> items browser
           </button>
           <span className="ml-auto hidden truncate font-mono text-[9px] uppercase tracking-wider text-dim/70 sm:block">
             {tab === "guide"
               ? "react · tailwind · 12 sections"
               : tab === "items"
                 ? "items.dat · decoded locally"
-                : "c++20 · enet · cmake · mariadb"}
+                : tab === "network"
+                  ? "bgnet · tagalog · animated"
+                  : "c++20 · enet · cmake · mariadb"}
           </span>
         </div>
       </div>
@@ -243,7 +257,7 @@ export default function App() {
             <div className="absolute inset-0 bg-gradient-to-r from-ink via-ink/85 to-ink/30" />
             <div className="absolute inset-0 bg-gradient-to-t from-ink via-transparent to-transparent" />
 
-            <div className="relative mx-auto max-w-4xl px-5 py-14 sm:py-20">
+            <div className="relative mx-auto max-w-4xl px-4 py-10 sm:px-5 sm:py-20">
               <div className="mb-5 flex flex-wrap items-center gap-2">
                 <span className="chip border-mint/40 text-mint">
                   <i className="size-1.5 rounded-full bg-mint" />
@@ -253,7 +267,7 @@ export default function App() {
                 <span className="chip">little-endian</span>
               </div>
 
-              <h1 className="max-w-2xl text-4xl font-semibold leading-[1.08] tracking-tight text-white sm:text-5xl">
+              <h1 className="max-w-2xl text-3xl font-semibold leading-[1.08] tracking-tight text-white sm:text-5xl">
                 A Growtopia private server,{" "}
                 <span className="text-lime">byte by byte</span>
               </h1>
@@ -294,7 +308,7 @@ export default function App() {
           </section>
 
           <div className="sticky top-[68px] z-40 border-b border-line bg-ink/95 backdrop-blur lg:hidden">
-            <div className="flex gap-1 overflow-x-auto px-3 py-2">
+            <div className="flex gap-1 overflow-x-auto px-2.5 py-2">
               {navSections.map((section) => (
                 <a
                   key={section.id}
@@ -311,7 +325,7 @@ export default function App() {
             </div>
           </div>
 
-          <div className="mx-auto max-w-4xl space-y-20 px-5 py-14">
+          <div className="mx-auto max-w-4xl space-y-14 px-4 py-10 sm:space-y-20 sm:px-5 sm:py-14">
             {/* 01 overview */}
             <section id="overview" className="scroll-mt-24">
               <SectionHeading
@@ -971,7 +985,7 @@ send_varlist(peer, { "OnSetPos", CL_Vec2f{ 672.f, 1152.f } }, netid);`}
           </div>
 
           <footer className="border-t border-line/70">
-            <div className="mx-auto flex max-w-4xl flex-col gap-2 px-5 py-8 sm:flex-row sm:items-center sm:justify-between">
+            <div className="mx-auto flex max-w-4xl flex-col gap-2 px-4 py-8 sm:flex-row sm:items-center sm:justify-between sm:px-5">
               <p className="font-mono text-[10px] text-dim">
                 gtps handbook · personal notes · {new Date().getFullYear()}
               </p>
@@ -982,6 +996,8 @@ send_varlist(peer, { "OnSetPos", CL_Vec2f{ 672.f, 1152.f } }, netid);`}
           </footer>
         </main>
           </>
+        ) : tab === "network" ? (
+          <NetworkView />
         ) : tab === "items" ? (
           <ItemsBrowser />
         ) : (

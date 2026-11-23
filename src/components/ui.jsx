@@ -34,7 +34,7 @@ export function Callout({ tone = "note", title, children }) {
           {title}
         </div>
       ) : null}
-      <div className="text-sm leading-6 text-body/90">{children}</div>
+      <div className="break-words text-sm leading-6 text-body/90">{children}</div>
     </div>
   );
 }
@@ -54,26 +54,26 @@ export function CodeBlock({ title, language = "cpp", code, note }) {
 
   return (
     <figure className="panel overflow-x-auto">
-      <div className="flex items-center justify-between border-b border-line px-3.5 py-2">
-        <div className="flex items-center gap-2.5">
-          <span className="flex gap-1">
+      <div className="flex items-center justify-between gap-2 border-b border-line px-3 py-2 sm:px-3.5">
+        <div className="flex min-w-0 items-center gap-2.5">
+          <span className="flex shrink-0 gap-1">
             <i className="size-2 rounded-full bg-line2" />
             <i className="size-2 rounded-full bg-line2" />
             <i className="size-2 rounded-full bg-mint/50" />
           </span>
-          <figcaption className="font-mono text-[11px] text-dim">
+          <figcaption className="min-w-0 truncate font-mono text-[11px] text-dim">
             {title || language}
           </figcaption>
         </div>
         <button
           type="button"
           onClick={copy}
-          className="font-mono text-[10px] uppercase tracking-wider text-dim transition hover:text-lime"
+          className="shrink-0 font-mono text-[10px] uppercase tracking-wider text-dim transition hover:text-lime"
         >
           {copied ? "copied" : "copy"}
         </button>
       </div>
-      <pre className="overflow-x-auto px-4 py-3.5 text-[12px] leading-6">
+      <pre className="overflow-x-auto px-3 py-3.5 text-[12px] leading-6 sm:px-4">
         <code className="font-mono text-[#cfe4d8]">{code}</code>
       </pre>
       {note ? (

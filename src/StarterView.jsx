@@ -85,7 +85,7 @@ export default function StarterView() {
       <main className="min-w-0 flex-1">
         <section className="relative isolate overflow-hidden border-b border-line">
           <div className="absolute inset-0 bg-[radial-gradient(circle_at_85%_-10%,rgba(92,225,165,0.16),transparent_55%)]" />
-          <div className="relative mx-auto max-w-4xl px-5 py-12">
+          <div className="relative mx-auto max-w-4xl px-4 py-10 sm:px-5 sm:py-12">
             <div className="mb-4 flex flex-wrap items-center gap-2">
               <span className="chip border-mint/40 text-mint">c++20</span>
               <span className="chip">cmake</span>
@@ -135,7 +135,7 @@ export default function StarterView() {
         </section>
 
         <div className="sticky top-[68px] z-40 border-b border-line bg-ink/95 backdrop-blur lg:hidden">
-          <div className="flex gap-1 overflow-x-auto px-3 py-2">
+          <div className="flex gap-1 overflow-x-auto px-2.5 py-2">
             {starterNav.map((section) => (
               <a
                 key={section.id}
@@ -152,7 +152,7 @@ export default function StarterView() {
           </div>
         </div>
 
-        <div className="mx-auto max-w-4xl space-y-20 px-5 py-14">
+        <div className="mx-auto max-w-4xl space-y-14 px-4 py-10 sm:space-y-20 sm:px-5 sm:py-14">
           {/* 01 setup */}
           <section id="s-setup" className="scroll-mt-28">
             <SectionHeading
@@ -206,7 +206,7 @@ export default function StarterView() {
 mysql -u root -p -e "SOURCE sql/schema.sql"`}
                 note="server_data.php and the certificate live in resources/."
               />
-              <div className="panel p-4">
+              <div className="panel min-w-0 p-3 sm:p-4">
                 <div className="mb-2 font-mono text-[10px] uppercase tracking-[0.14em] text-dim">
                   hosts file · the one system change
                 </div>
@@ -274,7 +274,7 @@ mysql -u root -p -e "SOURCE sql/schema.sql"`}
    ├─ login.cpp          ltoken, logon, actions
    └─ tiles.cpp          punch + place`}
               />
-              <div className="space-y-3">
+              <div className="min-w-0 space-y-3">
                 <FileTabs files={enetBuild} />
                 <Callout title="why not a system package">
                   Debian's <code className="font-mono text-[11px]">libenet-dev</code>{" "}
@@ -368,7 +368,7 @@ cmake --build build -j
 # RTENDMARKERBS1001`}
                 note="-k skips verification; if that works but the client fails, the certificate is not trusted."
               />
-              <div className="space-y-3">
+              <div className="min-w-0 space-y-3">
                 <Callout tone="danger" title="port 443 and trust">
                   Binding 443 needs administrator on Windows and root on Linux. If
                   something already owns it, forward instead:{" "}
@@ -763,7 +763,7 @@ cmake --build build -j
                 </table>
               </div>
 
-              <div className="space-y-3">
+              <div className="min-w-0 space-y-3">
                 <div className="panel p-4">
                   <div className="mb-2 font-mono text-[10px] uppercase tracking-[0.14em] text-dim">
                     OnSpawn · required lines
@@ -934,7 +934,7 @@ cmake --build build -j
         </div>
 
         <footer className="border-t border-line/70">
-          <div className="mx-auto flex max-w-4xl flex-col gap-2 px-5 py-8 sm:flex-row sm:items-center sm:justify-between">
+          <div className="mx-auto flex max-w-4xl flex-col gap-2 px-4 py-8 sm:flex-row sm:items-center sm:justify-between sm:px-5">
             <p className="font-mono text-[10px] text-dim">
               gtps starter · c++20 · cmake · enet · mariadb
             </p>
